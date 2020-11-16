@@ -2,70 +2,11 @@ import mysql.connector
 import time
 import sys
 import os
-import subprocess
 
-print()
-print('How are you running this python script?')
-print('1: Using Command Prompt/Terminal Emulator (Recommended)')
-print('2: Using Python IDLE')
-print()
-ask_program = int(input('Enter your choice: '))
-
-animations = False
-
-if ask_program == 1:
-    print("You are good to go, Command Prompt/Terminal Emulator supports animations")
-    print()
-    animations = True
-
-elif ask_program == 2:
-    print()
-    print("This does not support animations...")
-    print("1: Learn how to open this script in Command Prompt/Terminal Emulator (Recommended)")
-    print("2: Continue Anyway")
-    print()
-    ask_program_choice = int(input("Enter your choice: "))
-    print()
-
-    if ask_program_choice == 1:
-        file_path = os.path.abspath(__file__)
-        print()
-        print('Open Command Prompt or any other Terminal Emulator')
-        print(f'Type "python {file_path}"')
-        print()
-        ask_lst = input('Is this script running Command Prompt/Terminal Emulator? (Yes/No) ')
-        print()
-        if ask_lst == 'Yes' or ask_lst== 'yes' or ask_lst == 'YES' or ask_lst in 'Yy':
-            print("Now you can close this IDLE and continue in Command Prompt/Terminal Emulator")
-            print()
-            animations = True
-
-        else:
-            print()
-            print('Go to "https://docs.python.org/3/faq/windows.html" to know how to run in Command Prompt')
-            print("For now animations are disabled for you")
-            print()
-
-    elif ask_program_choice == 2:
-        print("You can not get animations !")
-        print("To check this program's full potential, you have to open it in any Terminal Emulator")
-        print()
-
-    else:
-        print()
-        print("Invalid choice")
-        print("Assuming that you are using IDLE")
-        print()
-
-else:
-    print()
-    print("Invalid choice")
-    print("Assuming that you are using IDLE")
-    print()
-say = ' Main program started '
-print('='*len(say.center(100,'.')))
-print(say.center(100,'.'))
-print('='*len(say.center(100,'.')))
+say = " Main program started "
+print("=" * len(say.center(100, ".")))
+print(say.center(100, "."))
+print("=" * len(say.center(100, ".")))
 print()
 
 user_name = input("Enter your mysql user name: ")
@@ -98,84 +39,12 @@ try:
 
     mycursor = mydb.cursor()
 
-    def progress_bar(seconds):
-      for progress in range(0,seconds+1):
-        percent = (progress * 100) // seconds
-        print("\n")
-        print("Loading...")
-        print("< " + (" == " * progress) + (" " * (seconds-progress)) + " > " + str(percent) + "%")
-        print("\n")
-        time.sleep(0.8)
-        os.system('clear')  
- 
-    # Function for implementing the loading animation
-    def load_animation():
-
-        # String to be displayed when the application is loading
-        load_str = "Made By KUNWAR YUVRAJ ..."
-        ls_len = len(load_str)
-
-        # String for creating the rotating line
-        animation = "|/-\\"
-        anicount = 0
-
-        # used to keep the track of
-        # the duration of animation
-        counttime = 0
-
-        # pointer for travelling the loading string
-        i = 0
-
-        while counttime != 100:
-
-            # used to change the animation speed
-            # smaller the value, faster will be the animation
-            time.sleep(0.025)
-
-            # converting the string to list
-            # as string is immutable
-            load_str_list = list(load_str)
-
-            # x->obtaining the ASCII code
-            x = ord(load_str_list[i])
-
-            # y->for storing altered ASCII code
-            y = 0
-
-            # if the character is "." or " ", keep it unaltered
-            # switch uppercase to lowercase and vice-versa
-            if x != 32 and x != 46:
-                if x > 90:
-                    y = x - 32
-                else:
-                    y = x + 32
-                load_str_list[i] = chr(y)
-
-            # for storing the resultant string
-            res = ""
-            for j in range(ls_len):
-                res = res + load_str_list[j]
-
-            # displaying the resultant string
-            sys.stdout.write("\r" + res + animation[anicount])
+    def type_animation(string, sec=0.08):
+        for char in string:
+            sys.stdout.write(char)
             sys.stdout.flush()
-
-            # Assigning loading string
-            # to the resultant string
-            load_str = res
-
-            anicount = (anicount + 1) % 4
-            i = (i + 1) % ls_len
-            counttime = counttime + 1
-
-        print()
-        # for windows OS
-        # if os.name == "nt":
-            # os.system("cls")
-
-        # for linux / Mac OS
-        # else:
-            # os.system("clear")
+            time.sleep(sec)
+        return ""
 
     def create_student_table():
         try:
@@ -488,24 +357,18 @@ try:
             print("=" * len(heading.center(100, "-")))
             print("#" * len(heading.center(100, "-")))
             print()
-            if animations:
-                load_animation()
-            else:
-                print("Made by Kunwar Yuvraj")
+            type_animation("Made by Kunwar Yuvraj\n")
             print()
             print("1: Students")
             print("2: Attendence")
             print("3: Fees")
             print("4: Library")
             print("5: CCA")
-            if animations:
-                print("6: About (Animation Based | ENABLED !)")
-            else:
-                print("6: About (Animation Based | DISABLED !)")
+            type_animation("6: About (Animation Based!)\n")
             print("7: Exit")
 
             print()
-            choice = input("Enter your choice: ")
+            choice = input(type_animation("Enter your choice: "))
             print()
 
             if choice == "1":
@@ -549,7 +412,7 @@ try:
             print("5: Remove Student")
             print("6: Return")
             print()
-            choice = input("Enter your choice: ")
+            choice = input(type_animation("Enter your choice: "))
             print()
 
             if choice == "1":
@@ -585,7 +448,7 @@ try:
             print("6: Return")
 
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -621,7 +484,7 @@ try:
             print("6: Return")
 
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: \n")))
             print()
 
             if choice == 1:
@@ -657,7 +520,7 @@ try:
             print("6: Return")
 
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -693,7 +556,7 @@ try:
             print("6: Return")
 
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -712,37 +575,27 @@ try:
                 print("Invalid Choice")
 
     def about():
-        if animations:
-            print()
-            progress_bar(5)
-            print()
-            print('Choose animation speed')
-            print('1: Fast')
-            print('2: Medium')
-            print('3: Slow (Not Recommended)')
-            print()
-            ask_speed = int(input('Enter your choice: '))
-            if ask_speed == 1:
-                animation_speed = 0.015
-            elif ask_speed == 2:
-                animation_speed = 0.05
-            elif ask_speed == 3:
-                animation_speed = 0.1
-            else:
-                animation_speed = 0.1
-
-            message = '''\nHi, I am Kunwar Yuvraj.\nI am NOT using any extra library for this animation.\nOnly "Non-Standard" library used is "mysql-connector".\nThis project is for class 12\nThis project is also available on github at "https://github.com/kunwar-yuvraj/python_mysql_project"\n\n'''
-            for char in message:
-                sys.stdout.write(char)
-                sys.stdout.flush()
-                time.sleep(animation_speed)
-
+        print()
+        print("Choose animation speed")
+        type_animation("1: Fast\n", 0.02)
+        type_animation("2: Medium\n", 0.1)
+        type_animation("3: Slow (Not Recommended)\n", 0.2)
+        print()
+        ask_speed = int(input("Enter your choice: "))
+        if ask_speed == 1:
+            animation_speed = 0.015
+        elif ask_speed == 2:
+            animation_speed = 0.05
+        elif ask_speed == 3:
+            animation_speed = 0.1
         else:
-            message = '''\nHi, I am Kunwar Yuvraj.\nI highly recommend using Command Prompt or any Terminal Emulator\nOnly "Non-Standard" library used is "mysql-connector".\nThis project is for class 12\nThis project is also available on github at "https://github.com/kunwar-yuvraj/python_mysql_project"\n\n'''
-            print(message)
+            animation_speed = 0.1
 
-
-        
+        message = """\nHi, I am Kunwar Yuvraj.\nI am NOT using any extra library for this animation.\nOnly "Non-Standard" library used is "mysql-connector".\nThis project is for class 12\nThis project is also available on github at "https://github.com/kunwar-yuvraj/python_mysql_project"\n\n"""
+        for char in message:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(animation_speed)
 
     def student_menu_add():
         heading = "SCHOOL MANAGEMENT SYSTEM"
@@ -817,7 +670,7 @@ try:
             print("8: Return")
 
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -999,7 +852,7 @@ try:
             print("4: Count Student from Section")
             print("5: Return")
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -1078,7 +931,7 @@ try:
             print("7: Return")
 
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
             exists = False
             if choice >= 1 and choice <= 6:
@@ -1183,7 +1036,9 @@ try:
         print("=" * len(heading.center(100, "-")))
         print()
 
-        ask_uid = int(input("Enter UID of Student you want to remove: "))
+        ask_uid = int(
+            input(type_animation("Enter UID of Student you want to remove: "))
+        )
         sql = "select * from student where uid = (%s)"
         val = (ask_uid,)
         mycursor.execute(sql, val)
@@ -1317,7 +1172,7 @@ try:
             print("4: Count Book from Subject")
             print("5: Return")
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -1418,7 +1273,7 @@ try:
             print("10: Return")
 
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -1683,7 +1538,7 @@ try:
             print()
 
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
             exists = False
             if choice >= 1 and choice <= 5:
@@ -1936,7 +1791,7 @@ try:
             print("3: Count Book from Activity Date")
             print("4: Return")
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -2017,7 +1872,7 @@ try:
             print("7: Return")
 
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -2172,7 +2027,7 @@ try:
             print("5: Return")
             print()
 
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
             exists = False
             if choice >= 1 and choice <= 4:
@@ -2407,7 +2262,7 @@ try:
             print("3: Count Fees from Due Date")
             print("4: Return")
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -2486,7 +2341,7 @@ try:
             print("6: Return")
 
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -2619,7 +2474,7 @@ try:
             print("4: Return")
             print()
 
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
             exists = False
             if choice >= 1 and choice <= 4:
@@ -2857,7 +2712,7 @@ try:
             print("3: Count Fees from Due Date")
             print("4: Return")
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -2941,7 +2796,7 @@ try:
             print("8: Return")
 
             print()
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
 
             if choice == 1:
@@ -3137,7 +2992,7 @@ try:
             print("5: Return")
             print()
 
-            choice = int(input("Enter your choice: "))
+            choice = int(input(type_animation("Enter your choice: ")))
             print()
             exists = False
             if choice >= 1 and choice <= 4:
@@ -3296,7 +3151,3 @@ except mysql.connector.errors.ProgrammingError as e:
     print("Check that your mysql server is running correctly !")
     print("Exiting ...")
     print()
-
-# import subprocess,os
-# path = 'asdf'
-# os.popen('st /k "date"')
