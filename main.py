@@ -1,7 +1,6 @@
 import mysql.connector
 import time
 import sys
-import os
 
 say = " Main program started "
 print("=" * len(say.center(100, ".")))
@@ -347,8 +346,6 @@ try:
         create_cca_table()
         create_fees_table()
 
-        print("Initial tables created !")
-
         while True:
             heading = "SCHOOL MANAGEMENT SYSTEM"
             print("#" * len(heading.center(100, "-")))
@@ -358,6 +355,8 @@ try:
             print("#" * len(heading.center(100, "-")))
             print()
             type_animation("Made by Kunwar Yuvraj\n")
+            print()
+            print("Initial tables created !")
             print()
             print("1: Students")
             print("2: Attendence")
@@ -1087,7 +1086,16 @@ try:
                 if row[0] == stu_uid:
                     return_date = input("Enter Assigned Return Date (YYYY-MM-DD): ")
                     return_status = input("Is this book returned? (Yes/No)")
-                    sql = "insert into Library(book_code, book_name, author_name, subject, issued, uid, return_date, return_status) values(%s, %s, %s, %s, %s, %s, %s, %s)"
+                    sql = """
+                    insert into Library
+                    (
+                    book_code, book_name, 
+                    author_name, subject, 
+                    issued, uid, return_date, 
+                    return_status
+                    ) 
+                    values(%s, %s, %s, %s, %s, %s, %s, %s)"""
+
                     val = (
                         book_code,
                         book_name,
@@ -1620,7 +1628,11 @@ try:
                                     return_status = input(
                                         "Is this book returned? (Yes/No): "
                                     )
-                                    sql = "update Library set Issued='Yes', uid=(%s), Return_Date=(%s), Return_Status=(%s) where bid=(%s)"
+                                    sql = """
+                                    update Library 
+                                    set 
+                                    Issued='Yes', uid=(%s), Return_Date=(%s), Return_Status=(%s)
+                                    where bid=(%s)"""
                                     val = (stu_uid, return_date, return_status, bid)
                                     mycursor.execute(sql, val)
                                     mydb.commit()
@@ -1633,7 +1645,11 @@ try:
                                 print()
 
                         else:
-                            sql = "update Library set Issued='No', uid=(%s), Return_Date=(%s), Return_Status=(%s) where bid=(%s)"
+                            sql = """
+                            update Library 
+                            set 
+                            Issued='No', uid=(%s), Return_Date=(%s), Return_Status=(%s)
+                            where bid=(%s)"""
                             val = (None, None, None, bid)
                             mycursor.execute(sql, val)
                             mydb.commit()
@@ -1722,7 +1738,13 @@ try:
             for row in rec:
                 if row[0] == winner_uid:
                     prize = input("Enter Prize Given: ")
-                    sql = "insert into CCA(activity_code, activity_name, date, winner_uid, prize) values(%s, %s, %s, %s, %s)"
+                    sql = """
+                    insert into CCA
+                    (
+                    activity_code, activity_name, 
+                    date, winner_uid, prize
+                    ) 
+                    values(%s, %s, %s, %s, %s)"""
                     val = (activity_code, activity_name, date, winner_uid, prize)
                     mycursor.execute(sql, val)
                     mydb.commit()
@@ -1749,7 +1771,10 @@ try:
                 print()
 
         elif winner == "no" or winner == "No" or winner == "NO":
-            sql = "insert into CCA(Activity_Code, Activity_Name, Date, Winner_UID, Prize) values(%s, %s, %s, %s, %s)"
+            sql = """
+            insert into CCA
+            (Activity_Code, Activity_Name, Date, Winner_UID, Prize) 
+            values(%s, %s, %s, %s, %s)"""
             val = (activity_code, activity_name, date, None, None)
             mycursor.execute(sql, val)
             mydb.commit()
@@ -2637,7 +2662,9 @@ try:
                 if status in "Pp":
                     time_of_join = input("Enter time of join: (HH:MM:SS) ")
                     time_of_leave = input("Enter time of leave: (HH:MM:SS) ")
-                    sql = "insert into Attendence(student_uid, date, subject, status, time_of_join, time_of_leave) values(%s, %s,%s, %s, %s, %s)"
+                    sql = """insert into Attendence
+                    (student_uid, date, subject, status, time_of_join, time_of_leave) 
+                    values(%s, %s,%s, %s, %s, %s)"""
                     val = (
                         student_uid,
                         date,
@@ -2649,7 +2676,12 @@ try:
                     mycursor.execute(sql, val)
                     mydb.commit()
 
-                    sql1 = "select * from Attendence where student_uid=(%s) and date=(%s) and status=(%s) and time_of_join=(%s) and time_of_leave=(%s)"
+                    sql1 = """
+                    select * from Attendence 
+                    where 
+                    student_uid=(%s) and date=(%s) and 
+                    status=(%s) and time_of_join=(%s) and 
+                    time_of_leave=(%s)"""
                     val1 = (student_uid, date, status, time_of_join, time_of_leave)
                     mycursor.execute(sql1, val1)
                     r = mycursor.fetchall()
@@ -2666,7 +2698,9 @@ try:
                         print()
 
                 elif status in "Aa":
-                    sql = "insert into Attendence(student_uid, date, subject, status, time_of_join, time_of_leave) values(%s, %s, %s, %s, %s, %s)"
+                    sql = """insert into Attendence
+                    (student_uid, date, subject, status, time_of_join, time_of_leave) 
+                    values(%s, %s, %s, %s, %s, %s)"""
                     val = (student_uid, date, subject, "A", None, None)
                     mycursor.execute(sql, val)
                     mydb.commit()
@@ -3038,7 +3072,11 @@ try:
                         if new_wstatus in "Pp":
                             time_of_join = input("Enter Time_of_Join (HH:MM:SS) : ")
                             time_of_leave = input("Enter Time_of_Leave (HH:MM:SS) : ")
-                            sql = "update Attendence set Status=(%s), Time_of_Join=(%s), Time_of_Leave=(%s) where AID=(%s)"
+                            sql = """
+                            update Attendence 
+                            set 
+                            Status=(%s), Time_of_Join=(%s), Time_of_Leave=(%s) 
+                            where AID=(%s)"""
                             val = ("P", time_of_join, time_of_leave, aid)
                             mycursor.execute(sql, val)
                             mydb.commit()
@@ -3048,7 +3086,10 @@ try:
                             break
 
                         elif new_wstatus in "Aa":
-                            sql = "update Attendence set Status=(%s), Time_of_Join=(%s), Time_of_Leave=(%s) where AID=(%s)"
+                            sql = """update Attendence 
+                            set 
+                            Status=(%s), Time_of_Join=(%s), Time_of_Leave=(%s) 
+                            where AID=(%s)"""
                             val = ("A", None, None, aid)
                             mycursor.execute(sql, val)
                             mydb.commit()
