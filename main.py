@@ -2,7 +2,8 @@ import mysql.connector
 import time
 import sys
 
-say = " Main program started "
+print()
+say = " Login "
 print("=" * len(say.center(100, ".")))
 print(say.center(100, "."))
 print("=" * len(say.center(100, ".")))
@@ -11,13 +12,14 @@ print()
 # Get user credentials.
 user_name = input("Enter your mysql user name: ")
 mysql_passwd = input("Enter your mysql password: ")
+host_name = input("Enter host: ")
 
 # Check if user credentials is correct or not.
 try:
 
     # Establishing connection with MySQL Database.
     my_connection = mysql.connector.connect(
-        host="localhost", user=user_name, passwd=mysql_passwd
+        host=host_name, user=user_name, passwd=mysql_passwd
     )
     mycursor_connection = my_connection.cursor()
 
@@ -35,7 +37,7 @@ try:
 
     # Choosing initial Database to work.
     mydb = mysql.connector.connect(
-        host="localhost",
+        host=host_name,
         user=user_name,
         passwd=mysql_passwd,
         database="School_Management_System_by_KunwarYuvraj",
@@ -43,7 +45,7 @@ try:
 
     mycursor = mydb.cursor()
 
-    def type_animation(string, sec=0.07):
+    def type_animation(string, sec=0.06):
         """
         Typing animation.
         -------------------
@@ -93,11 +95,11 @@ try:
         val = [
             (
                 000,
-                "Kunwar Yuvraj",
+                "Zero",
                 "12",
                 "A",
                 "+91 1234567891",
-                "kunwaryuvraj@bestprogrammer.intheworld",
+                "zero@mail.cm",
             ),
             (1, "One", "5", "C", "+11 7878912496", "one@mail.cm"),
             (2, "Two", "3", "F", "+2 4211234567", "two@mail.cm"),
@@ -794,13 +796,13 @@ on github at "https://github.com/KUNWAR-YUVRAJ/python_mysql_project".
             print()
             print("Student Added with Details!")
             print()
-            print("UID", row[0])
-            print("Roll Number", row[1])
-            print("Name", row[2])
-            print("Class", row[3])
-            print("Section", row[4])
-            print("Phone Number", row[5])
-            print("Email", row[6])
+            print("UID:", row[0])
+            print("Roll Number:", row[1])
+            print("Name:", row[2])
+            print("Class:", row[3])
+            print("Section:", row[4])
+            print("Phone Number:", row[5])
+            print("Email:", row[6])
             print()
 
     def student_menu_search():
@@ -1034,6 +1036,7 @@ on github at "https://github.com/KUNWAR-YUVRAJ/python_mysql_project".
                         f"{row[0]:<5} | {row[1]:<8} | {row[2]:<15} | {row[3]:<8} | {row[4]:<9} | {row[5]:<18} | {row[6]}"
                     )
                 print("-" * 120)
+                print()
 
             elif choice == 2:
                 mycursor.execute("SELECT * FROM student")
@@ -1057,6 +1060,8 @@ on github at "https://github.com/KUNWAR-YUVRAJ/python_mysql_project".
                 print("Class", "\tNumber_of_students")
                 for row in rec:
                     print(row[0], "\t", row[1])
+                
+                print()
 
             elif choice == 4:
                 mycursor.execute(
