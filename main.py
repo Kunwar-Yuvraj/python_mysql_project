@@ -1,6 +1,12 @@
+# For connection with MySQL server
 import mysql.connector
+
+# For typing animation
 import time
 import sys
+
+# Getting password without echoing
+import getpass
 
 print()
 say = " Login "
@@ -11,7 +17,7 @@ print()
 
 # Get user credentials.
 user_name = input("Enter your mysql user name: ")
-mysql_passwd = input("Enter your mysql password: ")
+mysql_passwd = getpass.getpass("Enter your mysql password: ")
 host_name = input("Enter host: ")
 
 # Check if user credentials is correct or not.
@@ -1026,16 +1032,16 @@ on github at "https://github.com/KUNWAR-YUVRAJ/python_mysql_project".
             if choice == 1:
                 mycursor.execute("SELECT * FROM student")
                 rec = mycursor.fetchall()
-                print("-" * 120)
+                print("-" * 100)
                 print(
                     f'{"UID":<5} | {"Roll_No":<8} | {"Name":<15} | {"Class":<8} | {"Section":<9} | {"Phone_No":<18} | {"Email"}'
                 )
-                print("=" * 120)
+                print("=" * 100)
                 for row in rec:
                     print(
                         f"{row[0]:<5} | {row[1]:<8} | {row[2]:<15} | {row[3]:<8} | {row[4]:<9} | {row[5]:<18} | {row[6]}"
                     )
-                print("-" * 120)
+                print("-" * 100)
                 print()
 
             elif choice == 2:
