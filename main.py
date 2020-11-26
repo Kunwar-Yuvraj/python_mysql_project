@@ -888,7 +888,7 @@ on github at "https://github.com/KUNWAR-YUVRAJ/python_mysql_project".
                     print("Any student with roll number", ask_rno, "not found!")
 
             elif choice == 3:
-                ask_name = input("Enter Class: ")
+                ask_name = input("Enter Name: ")
                 sql = """SELECT * FROM student WHERE Name=(%s)"""
                 val = (ask_name,)
                 mycursor.execute(sql, val)
@@ -1066,7 +1066,7 @@ on github at "https://github.com/KUNWAR-YUVRAJ/python_mysql_project".
                 print("Class", "\tNumber_of_students")
                 for row in rec:
                     print(row[0], "\t", row[1])
-                
+
                 print()
 
             elif choice == 4:
@@ -3625,7 +3625,7 @@ on github at "https://github.com/KUNWAR-YUVRAJ/python_mysql_project".
     main()
 
 
-except mysql.connector.errors.ProgrammingError as e:
+except Exception as e:
     """
     If entered user credentials are incorrect,
     then raise appropriate error.
@@ -3633,7 +3633,5 @@ except mysql.connector.errors.ProgrammingError as e:
 
     print()
     print("Error", e)
-    print("Incorrect User or Password")
-    print("Check that your mysql server is running correctly !")
     print("Exiting ...")
     print()
