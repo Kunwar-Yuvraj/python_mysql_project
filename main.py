@@ -5,6 +5,7 @@ import mysql.connector
 import time
 import sys
 
+
 # Getting password without echoing
 import getpass
 
@@ -30,16 +31,11 @@ try:
     mycursor_connection = my_connection.cursor()
 
     # Creating initial Database
-    try:
-        mycursor_connection.execute(
-            "CREATE DATABASE School_Management_System_by_KunwarYuvraj"
-        )
-        print()
-        print('Database "School_Management_System_by_KunwarYuvraj" Created!')
-
-    except mysql.connector.errors.DatabaseError:
-        print()
-        print('Database "School_Management_System_by_KunwarYuvraj" already exists !')
+    mycursor_connection.execute(
+        "CREATE DATABASE IF NOT EXISTS School_Management_System_by_KunwarYuvraj"
+    )
+    print()
+    print('Database "School_Management_System_by_KunwarYuvraj" Created!')
 
     # Choosing initial Database to work.
     mydb = mysql.connector.connect(
@@ -79,7 +75,7 @@ try:
 
         mycursor.execute(
             """
-            create table student
+            create table IF NOT EXISTS student
             (
                 UID int auto_increment, 
                 Roll_No int(15), 
@@ -126,7 +122,7 @@ try:
 
         mycursor.execute(
             """
-            create table Library
+            create table IF NOT EXISTS Library
             (
                 BID int auto_increment, 
                 Book_Code varchar(55), 
@@ -240,7 +236,7 @@ try:
 
         mycursor.execute(
             """
-        create table CCA
+        create table IF NOT EXISTS CCA
         (
             CCA_ID int auto_increment, 
             Activity_Code varchar(215), 
@@ -283,7 +279,7 @@ try:
         """
         mycursor.execute(
             """
-            create table Fees
+            create table IF NOT EXISTS Fees
             (
             FID int auto_increment, 
             Student_UID int(50),
@@ -324,7 +320,7 @@ try:
 
         mycursor.execute(
             """
-            create table Attendence
+            create table IF NOT EXISTS Attendence
             (
                 AID int auto_increment, 
                 Student_UID int(25), 
@@ -383,18 +379,13 @@ try:
         No parameters.
         """
 
-        try:
-            create_attendence_table()
-            create_student_table()
-            create_library_table()
-            create_cca_table()
-            create_fees_table()
-            print("Initial tables created !")
-            print()
-
-        except:
-            print("Initial tables already exists !")
-            print()
+        create_attendence_table()
+        create_student_table()
+        create_library_table()
+        create_cca_table()
+        create_fees_table()
+        print("Initial tables created !")
+        print()
 
         while True:
             heading = "SCHOOL MANAGEMENT SYSTEM"
@@ -451,7 +442,9 @@ try:
                     or confirm == "Yes"
                 ):
 
+                    print("Closing database..")
                     print("Bye !")
+                    mydb.close()
                     break
 
                 elif (
@@ -780,23 +773,21 @@ on github at "https://github.com/KUNWAR-YUVRAJ/python_mysql_project".
         phone_no = input("Enter phone number: ")
         email = input("Enter Email: ")
 
-        query = """
+        query = f"""
         insert into student
         (roll_no, name, class, section, phone_no, email) 
-        values(%s,%s,%s, %s, %s, %s)
+        values({roll_no},'{name}', '{cls}', '{section}', '{phone_no}', '{email}')
         """
-        values = (roll_no, name, cls, section, phone_no, email)
 
-        mycursor.execute(query, values)
+        mycursor.execute(query)
         mydb.commit()
-        sql = """
+        sql = f"""
         select * from student 
         WHERE 
-        name=(%s) and class=(%s) and 
-        section=(%s) and phone_no=(%s) and roll_no=(%s)
+        name='{name}' and class='{cls}' and 
+        section='{section}' and phone_no='{phone_no}' and roll_no={roll_no}
         """
-        val = (name, cls, section, phone_no, roll_no)
-        mycursor.execute(sql, val)
+        mycursor.execute(sql)
         result = mycursor.fetchall()
         for row in result:
             print()
@@ -3635,3 +3626,4 @@ except Exception as e:
     print("Error", e)
     print("Exiting ...")
     print()
+
