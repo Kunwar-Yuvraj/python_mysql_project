@@ -5,10 +5,6 @@ import mysql.connector
 import time
 import sys
 
-
-# Getting password without echoing
-import getpass
-
 print()
 say = " Login "
 print("=" * len(say.center(100, ".")))
@@ -18,7 +14,7 @@ print()
 
 # Get user credentials.
 user_name = input("Enter your mysql user name: ")
-mysql_passwd = getpass.getpass("Enter your mysql password: ")
+mysql_passwd = input("Enter your mysql password: ")
 host_name = input("Enter host: ")
 
 # Check if user credentials is correct or not.
